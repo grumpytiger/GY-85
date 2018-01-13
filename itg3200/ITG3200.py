@@ -92,5 +92,5 @@ if __name__ == '__main__':
 
     while True:
         gx, gy, gz = sensor.read_data()
-        print gx, gy, gz
+        print (gx, gy, gz)
         time.sleep(1)

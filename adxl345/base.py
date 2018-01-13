@@ -44,7 +44,7 @@ class ADXL345_Base:
     REG_FIFO_STATUS = 0x39
 
     # Full Resolution scale factor (0x100 LSB/g ~= 3.9/1000 mg/LSB)
-    SCALE_FACTOR = 1 / 0x100
+    SCALE_FACTOR = 1 / 0x100 #0x100 = 256
 
     def __init__(self):
         self._full_resolution = True
@@ -123,9 +123,9 @@ class ADXL345_Base:
 
     def _convert(self, lsb, msb):
         """ Convert the gravity data returned by the ADXL to meaningful values """
-        value = lsb | (msb << 8)
-        if value & 0x8000:
-            value = -value ^ 0xFFFF
+        value = lsb | (msb << 8) #shift msb 8bit to the left, use bitwise or operator to merge lsb and msb
+        if value & 0x8000: #0x8000 = 32768 = 1000 0000 0000 0000
+            value = -value ^ 0xFFFF #0xFFFF = 0b1111 1111 1111 1111 = 65535, use bitwise XOR to merge value and 0xFFFF
         if not self._full_resolution:
             value = value << self._range
         value *= ADXL345_Base.SCALE_FACTOR
@@ -158,7 +158,7 @@ class ADXL345_Base:
             data_format |= 0x40
         if self_test:
             data_format |= 0x80
-
+        #least two bit: 00=+/-2g, 01=+/-4g, 10=+/-8g 11=+/-16g
         self.set_register(ADXL345_Base.REG_DATA_FORMAT, data_format)
 
     def _set_fifo_mode(self, mode=0, trigger=0, samples=0x1F):

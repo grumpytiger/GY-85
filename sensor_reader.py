@@ -14,9 +14,9 @@ class SensorReader:
     def __init__(self):
         self.__stopped = True
         self.samples_per_sec = 0
-        self.accelerometer = ADXL345(alternate=True)
-        self.accelerometer.set_data_rate(800)
-        self.accelerometer.set_range(16, True)
+        self.accelerometer = ADXL345(alternate=True) #Set accelerometer = 0x53 address
+        self.accelerometer.set_data_rate(800) #set data rate to 800 hz, rate code = 0b1101
+        self.accelerometer.set_range(16, True) #set range = 16, range_code = 0x3, full resolution = true
         self.gyroscope = ITG3200()
         self.compass = HMC5883L()
 
@@ -99,13 +99,13 @@ class SensorReader:
         return 'acc'
 
         # TODO uncomment to also read from other sensors, if needed
-        # remainder = self.read_samples % 16
-        # if remainder == 0 or remainder == 11:
-        #     return 'gyr'
-        # elif remainder == 6:
-        #     return 'comp'
-        # else:
-        #     return 'acc'
+         #remainder = self.read_samples % 16
+         #if remainder == 0 or remainder == 11:
+         #    return 'gyr'
+         #elif remainder == 6:
+         #    return 'comp'
+         #else:
+         #    return 'acc'
 
     @staticmethod
     def current_millis_frac():

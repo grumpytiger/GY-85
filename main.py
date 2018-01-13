@@ -22,7 +22,7 @@ if args.stdout:
     else:
         writer = StdoutWriter()
 else:
-    writer = FileWriter('/home/pi/sensor_recordings/')
+    writer = FileWriter('/home/pi/GY-85/')
 sensor_reader.set_sensor_listener(writer)
 
 # Consumer/producer architecture: the SensorReader is the producer, reading data from sensors,
